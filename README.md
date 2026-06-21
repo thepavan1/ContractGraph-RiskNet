@@ -1,184 +1,557 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Status-Production_Ready-brightgreen?style=for-the-badge" alt="Status" />
-  <img src="https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/TypeScript-Ready-blue?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
-  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
-  <img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+
+# ContractGraph-RiskNet
+
+### A Neuro-Symbolic AI Framework for Infrastructure Contract Risk Prediction using Knowledge Graphs and Deep Learning
+
+<img src="https://img.shields.io/badge/Research-Neuro--Symbolic_AI-purple?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/PyTorch-Deep_Learning-red?style=for-the-badge&logo=pytorch"/>
+<img src="https://img.shields.io/badge/Knowledge_Graph-Node2Vec-blue?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/FastAPI-Deployment-green?style=for-the-badge&logo=fastapi"/>
+<img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge"/>
+
 </div>
 
-<br />
+---
 
-<div align="center">
-  <h1 align="center">ContractGraph-RiskNet</h1>
-  <p align="center">
-    <strong>A Neuro-Symbolic AI Platform for Engineering Contract Risk & Delay Prediction</strong>
-    <br />
-    <br />
-    <a href="#overview">Overview</a>
-    ·
-    <a href="#key-features">Features</a>
-    ·
-    <a href="#system-architecture">Architecture</a>
-    ·
-    <a href="#getting-started">Installation</a>
-    ·
-    <a href="#research--novelty">Research Novelty</a>
-  </p>
-</div>
+## 📑 Table of Contents
 
-<hr />
-
-## 📖 Overview
-
-**ContractGraph-RiskNet** is a research-grade, production-ready AI platform designed to transform unstructured infrastructure contracts and Monthly Progress Reports (DPRs) into deterministic, actionable risk intelligence. 
-
-Unlike standard LLM wrappers that hallucinate schedule projections, RiskNet fuses **Symbolic Engineering Logic** (Earned Value Management, Critical Path tracking) with **Neural Architectures** (SHAP-explained Machine Learning, Context-Injected RAG) to predict delays, automatically trigger Liquidated Damages (LD) clauses, and simulate engineering-grade recovery scenarios.
-
-This platform bridges the gap between legal contractual obligations and on-the-ground engineering reality.
+- [Overview](#-overview)
+- [Research Motivation](#-research-motivation)
+- [Proposed Architecture](#️-proposed-architecture)
+- [Dataset](#-dataset)
+- [Model Artifacts](#-model-artifacts)
+- [Experimental Results](#-experimental-results)
+- [Explainable AI](#-explainable-ai)
+- [Ablation Study](#-ablation-study)
+- [Generated Research Figures](#-generated-research-figures)
+- [Deployment Prototype](#-deployment-prototype)
+- [AI Contract Assistant](#-ai-contract-assistant)
+- [Technology Stack](#️-technology-stack)
+- [Installation](#️-installation)
+- [Repository Structure](#-repository-structure)
+- [Research Contribution](#-research-contribution)
+- [Future Work](#-future-work)
+- [Citation](#-citation)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Authors](#-authors)
+- [Acknowledgements](#-acknowledgements)
 
 ---
 
-## ✨ Key Features
+## 🔎 Overview
 
-### 🧠 1. Neuro-Symbolic Deviation Engine
-*   **Activity-Level Variance:** Extracts project milestones directly from PDF contracts and compares them against uploaded monthly DPR PDFs.
-*   **Deterministic LD Activation:** If delays exceed contract-specified thresholds, the engine dynamically calculates the exact Liquidated Damages (LD) financial exposure (e.g., *₹150 Cr Penalty*).
-*   **Metrics Calculation:** Automatically tracks Schedule Variance, Schedule Performance Index (SPI), Cost Performance Index (CPI), and Financial Progress.
+**ContractGraph-RiskNet** is a research-oriented Neuro-Symbolic Artificial Intelligence framework designed for predicting risk in large-scale infrastructure projects by combining:
 
-### 🏭 2. Live Project Digital Twin (Control Room)
-*   Provides a real-time, pulsing dashboard that tracks the project's **Current Reality** against its **Original Baseline** and **AI Prediction**.
-*   Maps the **Risk Propagation Chain**, visualizing exactly how a localized schedule deviation ripples into a critical legal/financial termination warning.
-*   Presents **SHAP Feature Importance** to explain exactly *why* the AI assigned a specific risk profile.
+- Contractual knowledge representation
+- Graph-based reasoning
+- Semantic contract understanding
+- Deep learning based risk inference
 
-### ⏱️ 3. Engineering-Grade Recovery Simulator
-*   A strict, mathematically bounded "What-If" simulator that refuses to output impossible recovery times.
-*   Uses realistic construction productivity constraints (e.g., 1 worker = 0.08 days recovered; 1 excavator = 0.35 days recovered) subject to diminishing returns (shift limits).
-*   Visualizes real-time risk category transitions (e.g., `CRITICAL_RISK` → `HIGH_RISK`) based on simulated resource deployment.
+Traditional infrastructure risk prediction approaches mainly depend on structured project attributes and ignore valuable information hidden inside contractual documents.
 
-### 🤖 4. Context-Injected AI Expert (RAG)
-*   Powered by `Llama-3` (via Groq), this AI assistant is immune to hallucination.
-*   **Zero-Prompting Context:** The system forcibly injects the *entire* parsed project state (current delay, LD exposure, delayed activities) into the system prompt *before* your query reaches the LLM.
-*   The AI Expert acts as a highly specialized claims consultant, citing specific contract clauses and precise schedule variances in its answers.
+ContractGraph-RiskNet bridges this gap by converting contract clauses into a **Contract Risk Knowledge Graph**, learning graph representations, extracting semantic risk features, and combining them with project parameters using a neural inference model.
 
----
+The framework supports:
 
-## 🏗️ System Architecture
-
-The architecture separates the heavy ML processing from the lightweight reactive frontend.
-
-*   **Frontend**: React + TypeScript + Vite. Styled with TailwindCSS. Centralized state managed via a unified `ProjectContext`.
-*   **Backend**: Python + FastAPI. Uses `pdfplumber` for zero-shot text extraction and `scikit-learn` for predictive modeling.
-*   **Database**: MongoDB Atlas. Uses robust document storage for baselines, reports, and timeline histories.
-*   **Seeder Script**: Includes an automated deterministic seeder that generates 10 explicit infrastructure projects (ranging from NO RISK to CRITICAL RISK) with perfectly escalating 5-month timelines.
+- EPC / HAM infrastructure contract analysis
+- Early risk prediction
+- Contract clause intelligence
+- Explainable AI based decision support
+- Project monitoring through a Digital Twin dashboard
 
 ---
 
-## 🛠️ Tech Stack
+## 🎯 Research Motivation
 
-| Category | Technologies |
-| :--- | :--- |
-| **Frontend** | React 18, TypeScript, Vite, TailwindCSS, Lucide Icons |
-| **Backend** | Python 3.10+, FastAPI, Uvicorn, Pydantic |
-| **Data Extraction** | `pdfplumber`, `re` (Regex) |
-| **Machine Learning** | `scikit-learn` (TruncatedSVD, RandomForest, SHAP) |
-| **Generative AI** | Groq API (`llama3-8b-8192`) |
-| **Database** | MongoDB Atlas, `motor` (AsyncIO Driver) |
-| **Report Generation** | `reportlab` (Dynamic PDF creation) |
+Large infrastructure projects frequently suffer from:
 
----
+- Schedule delays
+- Cost overruns
+- Contract disputes
+- Quality failures
+- Termination risks
 
-## 🚀 Getting Started
+Existing ML approaches fail to capture contractual dependencies such as:
 
-Follow these instructions to get the platform running locally for development and demonstration.
-
-### Prerequisites
-*   Node.js (v18+)
-*   Python (3.10+)
-*   MongoDB Atlas cluster URI
-*   Groq API Key
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/ContractGraph-RiskNet.git
-cd ContractGraph-RiskNet/Website
+```text
+Delayed Milestone
+       ↓
+Liquidated Damages
+       ↓
+Financial Stress
+       ↓
+Termination Risk
 ```
 
-### 2. Backend Setup
-Navigate to the backend directory, create a virtual environment, and install dependencies:
+Therefore, ContractGraph-RiskNet introduces **contract-aware reasoning** into risk prediction.
+
+---
+
+## 🏗️ Proposed Architecture
+
+The framework consists of **five major layers**:
+
+### 1. Contract Intelligence Extraction Layer
+
+**Input:**
+
+- Government Contract Corpus
+- EPC Agreements
+- World Bank Standard Procurement Documents
+
+**Processing:**
+
+- PDF extraction
+- Text preprocessing
+- Risk keyword mining
+- Clause identification
+
+**Output:** Structured contract risk entities.
+
+---
+
+### 2. Contract Risk Knowledge Graph
+
+Extracted contract concepts are represented as a graph.
+
+**Entities:**
+
+- Delay
+- Cost Overrun
+- Liquidated Damages
+- Quality Failure
+- Termination
+- Financial Stress
+
+**Relations:**
+
+- `CAUSES`
+- `INCREASES`
+- `TRIGGERS`
+- `DEPENDS_ON`
+
+**Graph structure:**
+
+```text
+Risk Entity → Relation → Risk Entity
+```
+
+This enables **symbolic reasoning** over contract dependencies.
+
+---
+
+### 3. Graph Representation Learning
+
+Knowledge Graph nodes are transformed into numerical embeddings using **Node2Vec**.
+
+Random walks capture:
+
+- Local neighbourhood information
+- Risk dependency patterns
+- Structural relationships
+
+**Output:** `KG Embedding Vector = 8 dimensions`
+
+---
+
+### 4. Semantic Contract Encoder
+
+Contract clauses are converted into semantic risk representations.
+
+**Pipeline:**
+
+```text
+Contract Text
+     ↓
+TF-IDF Vectorization
+     ↓
+Truncated SVD
+     ↓
+Semantic Risk Vector
+```
+
+**Output:** `Semantic Features = 4 dimensions`
+
+---
+
+### 5. ContractGraph-RiskNet Neural Model
+
+**Final feature fusion:**
+
+```text
+Project Features        ( 3 )
++ Knowledge Graph        ( 8 )
++ Semantic Features      ( 4 )
+-----------------------------
+= 15 Total Features
+```
+
+**Neural Architecture:**
+
+```text
+Input Layer (15)
+      ↓
+Dense Layer (32) → ReLU → BatchNorm → Dropout
+      ↓
+Dense Layer (16) → ReLU → BatchNorm → Dropout
+      ↓
+Sigmoid Classifier
+      ↓
+Risk Probability
+```
+
+---
+
+## 📊 Dataset
+
+The dataset combines structured, graph, and semantic features.
+
+### Project Features
+
+| Feature            | Description                       |
+| ------------------ | --------------------------------- |
+| Project Cost       | Infrastructure investment value   |
+| Region             | Location based risk encoding      |
+| Environmental Risk | External impact factor            |
+
+### Knowledge Features
+
+```text
+KG_embedding_0
+KG_embedding_1
+...
+KG_embedding_7
+```
+
+### Semantic Features
+
+```text
+semantic_risk_0
+semantic_risk_1
+semantic_risk_2
+semantic_risk_3
+```
+
+**Final Dataset:** `ContractGraph_RiskNet_FinalDataset.csv`
+
+---
+
+## 📦 Model Artifacts
+
+The trained system produces the following artifacts:
+
+```text
+models/
+├── ContractGraph_RiskNet.pt
+├── risk_scaler.pkl
+├── feature_columns.pkl
+├── tfidf.pkl
+├── svd.pkl
+├── contract_embedding.pkl
+└── semantic_embedding.pkl
+```
+
+These artifacts are directly integrated into the deployment platform.
+
+---
+
+## 🧪 Experimental Results
+
+### Model Comparison
+
+| Model                     | Accuracy  | Precision | Recall    | F1 Score  | AUC       |
+| ------------------------- | :-------:  | :-------: | :-------: | :-------: | :-------: |
+| Logistic Regression       | 0.612     | 0.383     | 0.899     | 0.537     | 0.721     |
+| Random Forest             | 0.808     | 0.618     | 0.609     | 0.613     | 0.859     |
+| XGBoost                   | 0.781     | 0.551     | 0.667     | 0.603     | 0.854     |
+| LightGBM                  | 0.777     | 0.545     | 0.659     | 0.597     | 0.849     |
+| **ContractGraph-RiskNet** | **0.792** | **0.560** | **0.775** | **0.650** | **0.871** |
+
+### Key Results
+
+| Metric   | Score    |
+| -------- | -------- |
+| Accuracy | 79.16 %  |
+| F1 Score | 65.04 %  |
+| AUC      | 87.07 %  |
+
+> The proposed model achieved the **highest AUC score**, showing improved risk separation ability.
+
+---
+
+## 🔍 Explainable AI
+
+Model interpretation is performed using:
+
+- Feature importance analysis
+- SHAP explanations
+
+Risk contribution is analyzed from:
+
+- Project attributes
+- Knowledge graph features
+- Semantic contract features
+
+---
+
+## 🧬 Ablation Study
+
+To validate the Knowledge Graph contribution:
+
+| Experiment            | Recall    | F1        |
+| --------------------- | :-------: | :-------: |
+| Without Contract KG   | 0.725     | 0.635     |
+| **With Contract KG**  | **0.775** | **0.650** |
+
+> The Knowledge Graph improves risk detection by capturing hidden contractual dependencies.
+
+---
+
+## 📈 Generated Research Figures
+
+```text
+figures/
+├── Fig1 System Architecture Diagram
+├── Fig2 Risk Distribution
+├── Fig3 Knowledge Graph
+├── Fig4 Model Performance
+├── Fig5 ROC Curve
+├── Fig6 Confusion Matrix
+├── Fig7 Ablation Study
+└── Fig8 Feature Importance
+```
+
+---
+
+## 🚀 Deployment Prototype
+
+A complete **AI Project Control Room** was developed for real-world demonstration.
+
+### Frontend
+
+**Technology:**
+
+- React
+- TypeScript
+- TailwindCSS
+- Recharts
+
+**Modules:**
+
+#### 📄 Contract Baseline Analyzer
+
+Uploads EPC/HAM contracts and extracts:
+
+- Clauses
+- Risks
+- Milestones
+- Obligations
+
+#### 📊 DPR Monitoring System
+
+Compares monthly progress reports:
+
+```text
+Planned Progress   vs   Actual Progress
+```
+
+Generates:
+
+- Schedule deviation
+- Cost deviation
+- Risk escalation
+
+#### 🛰️ Digital Twin Dashboard
+
+Displays:
+
+- Risk evolution
+- Timeline analysis
+- Delay propagation
+- Recovery planning
+
+---
+
+## 🤖 AI Contract Assistant
+
+Implemented using:
+
+- Retrieval Augmented Generation (RAG)
+- Groq Llama Models
+
+The assistant receives:
+
+- Contract information
+- Risk outputs
+- DPR history
+
+…and provides **project-specific explanations**.
+
+---
+
+## 🛠️ Technology Stack
+
+### Research
+
+- Python
+- PyTorch
+- Scikit-learn
+- NetworkX
+- Node2Vec
+- NLP
+
+### Backend
+
+- FastAPI
+- MongoDB Atlas
+- pdfplumber
+- Groq API
+
+### Frontend
+
+- React
+- TypeScript
+- Tailwind CSS
+
+---
+
+## ⚙️ Installation
+
+### Clone Repository
+
 ```bash
-cd backend
+git clone https://github.com/username/ContractGraph-RiskNet.git
+cd ContractGraph-RiskNet
+```
+
+### Install Backend
+
+```bash
+cd Website/backend
 python -m venv venv
 
 # Windows
-.\venv\Scripts\activate
-# Mac/Linux
+venv\Scripts\activate
+
+# macOS / Linux
 source venv/bin/activate
 
 pip install -r requirements.txt
-```
-
-#### Environment Variables
-Create a `.env` file in the `backend/` directory using the provided `.env.example`:
-```env
-MONGODB_URL=mongodb+srv://<USER>:<PASSWORD>@cluster0.xxx.mongodb.net/?retryWrites=true&w=majority
-GROQ_API_KEY=gsk_YOUR_GROQ_API_KEY
-```
-
-### 3. Frontend Setup
-Open a new terminal, navigate to the frontend directory, and install the dependencies:
-```bash
-cd frontend
-npm install
-```
-
----
-
-## 🏃 Running the Application
-
-### Start the Backend
-The backend includes a self-executing seed script. On the very first startup (when your MongoDB is empty), it will automatically generate and seed 10 distinct, fully documented sample projects spanning 5 months of escalating risk history.
-
-```bash
-cd backend
-# Ensure your venv is activated
 python main.py
 ```
-*The API will be available at `http://localhost:8000`*
 
-### Start the Frontend
+### Run Frontend
+
 ```bash
-cd frontend
+cd Website/frontend
+npm install
 npm run dev
 ```
-*The application will be available at `http://localhost:5173`*
 
 ---
 
-## 🧪 Resetting the Database (Demo Prep)
+## 📁 Repository Structure
 
-If you need to wipe your database and recreate the perfect escalating presentation dataset:
-
-1. Stop the backend server.
-2. Run the reset script:
-   ```bash
-   cd backend
-   python scripts/reset_db.py
-   ```
-3. Restart the backend server (`python main.py`). The seeder will recreate the 10 perfectly formatted sample projects.
+```text
+ContractGraph-RiskNet/
+│
+├── Notebook/
+│   └── ContractGraph_RiskNet.ipynb
+│
+├── Dataset/
+│   ├── HighwayRiskDataset.csv
+│   └── ContractGraph_FinalDataset.csv
+│
+├── Models/
+│   ├── ContractGraph_RiskNet.pt
+│   └── pickle artifacts (.pkl)
+│
+├── Results/
+│   └── figures/
+│
+└── Website/
+    ├── backend/   (FastAPI)
+    └── frontend/  (React)
+```
 
 ---
 
-## 🎓 Research & Novelty
+## 🏆 Research Contribution
 
-ContractGraph-RiskNet was built to demonstrate a leap in **Construction Informatics**. 
+The major contributions are:
 
-Standard predictive tools rely solely on structured historical data (which is rare). Standard LLMs process unstructured data but cannot perform deterministic engineering math (they hallucinate numbers). 
+1. **Contract-aware Knowledge Graph** construction for infrastructure risk reasoning.
+2. **Hybrid fusion** of structured project features, graph embeddings, and semantic contract vectors.
+3. **Deep learning based ContractGraph-RiskNet** prediction model.
+4. **Explainable risk intelligence** using SHAP and feature analysis.
+5. **Full-stack Digital Twin prototype** for real-world infrastructure monitoring.
 
-This platform proves that by **routing unstructured contract text into deterministic rule-engines**, and subsequently mapping the mathematical variance back into an LLM's context window, we achieve a system that is both **lexically aware** of the contract and **mathematically rigid** regarding schedule delays.
+---
+
+## 🔮 Future Work
+
+- Integration of Large Language Models for end-to-end clause extraction.
+- Expansion of the Contract Risk Knowledge Graph with multi-domain contracts.
+- Graph Neural Network (GNN) based reasoning instead of Node2Vec embeddings.
+- Real-time risk streaming from live project management systems.
+- Multi-lingual contract support for global infrastructure projects.
+
+---
+
+## 📚 Citation
+
+If you use this work in your research, please cite:
+
+```bibtex
+@software{contractgraph_risknet,
+  title   = {ContractGraph-RiskNet: A Neuro-Symbolic AI Framework for
+             Infrastructure Contract Risk Prediction using Knowledge Graphs
+             and Deep Learning},
+  author  = {Pavan P S},
+  year    = {2026},
+  url     = {https://github.com/username/ContractGraph-RiskNet}
+}
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Please ensure your code follows the project's style guidelines and includes appropriate documentation.
+
+---
+
+
+## 👥 Authors
+
+- **Pavan P S** — *Research & Development* — [@thepavan1](https://github.dev/thepavan1/)
+
+---
+
+## 🙏 Acknowledgements
+
+- World Bank Standard Procurement Documents
+- Government Infrastructure Contract Corpus
+- Open-source communities: PyTorch, Scikit-learn, NetworkX, FastAPI, React
 
 ---
 
 <div align="center">
-  <p>Engineered for Infrastructure Reliability.</p>
+
+### ContractGraph-RiskNet
+
+**From Contracts → Knowledge → Prediction → Action**
+
+⭐ If you find this project useful, please consider giving it a star!
+
 </div>
