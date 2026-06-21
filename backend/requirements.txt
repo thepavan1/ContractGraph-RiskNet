@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+motor
+python-multipart
+torch
+numpy
+scikit-learn
+joblib
+pdfplumber
+networkx
+langchain
+langchain-groq
+langchain-community
+faiss-cpu
+python-dotenv
